@@ -7,11 +7,13 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -43,6 +45,7 @@ import com.google.android.gms.plus.Plus;
 import com.infinity.adapter.CustomDrawerAdapter;
 import com.infinity.adapter.ImageAdapter;
 import com.infinity.clock.Entity;
+import com.infinity.clock.HourlyService;
 import com.infinity.clock.MyAlarmService;
 import com.infinity.data.ConnectionDetector;
 import com.infinity.data.Data;
@@ -233,6 +236,8 @@ public class Home extends Activity implements View.OnClickListener, GoogleApiCli
         barbtn.setOnClickListener(this);
         iCookBtnLayout.setOnClickListener(this);
         btnSend.setOnClickListener(this);
+
+        setAlarmHourly();
     }
 
     @Override
@@ -712,6 +717,33 @@ public class Home extends Activity implements View.OnClickListener, GoogleApiCli
                 Toast.makeText(getApplicationContext(), "Vui lòng kết nối internet!", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+
+    public void setAlarmHourly() {
+
+        //set Reboot
+//        ComponentName receiver = new ComponentName(this, BootReceiver.class);
+//        PackageManager pm = this.getPackageManager();
+//        pm.setComponentEnabledSetting(receiver,
+//                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+//                PackageManager.DONT_KILL_APP);
+
+        AlarmManager alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, HourlyService.class);
+        PendingIntent alarmIntent = PendingIntent.getService(this, 0, intent, 0);
+
+
+        Calendar calendar = Calendar.getInstance();
+        if (calendar.get(Calendar.HOUR_OF_DAY) >= 11 && calendar.get(Calendar.MINUTE) >= 32) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1); // add, not set!
+        }
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.set(Calendar.MINUTE, 32);
+        calendar.set(Calendar.SECOND, 00);
+
+        alarmMgr.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, alarmIntent);
 
 
     }
