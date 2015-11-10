@@ -22,8 +22,16 @@ public class BootReceiver extends BroadcastReceiver {
 
 
             Calendar calendar = Calendar.getInstance();
+<<<<<<< HEAD
             calendar.set(Calendar.HOUR_OF_DAY, 22);
             calendar.set(Calendar.MINUTE, 00);
+=======
+            if (calendar.get(Calendar.HOUR_OF_DAY) >= 10 && calendar.get(Calendar.MINUTE) >= 57) {
+                calendar.add(Calendar.DAY_OF_YEAR, 1); // add, not set!
+            }
+            calendar.set(Calendar.HOUR_OF_DAY, 10);
+            calendar.set(Calendar.MINUTE, 57);
+>>>>>>> origin/android
             calendar.set(Calendar.SECOND, 00);
 
             alarmMgr.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),

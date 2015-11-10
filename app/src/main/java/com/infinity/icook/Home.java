@@ -238,6 +238,7 @@ public class Home extends Activity implements View.OnClickListener, GoogleApiCli
         iCookBtnLayout.setOnClickListener(this);
         btnSend.setOnClickListener(this);
 
+<<<<<<< HEAD
 
         boolean run = sharedPreferences.getBoolean(Var.RUN, false);
         if (run == false) {
@@ -247,6 +248,9 @@ public class Home extends Activity implements View.OnClickListener, GoogleApiCli
             editor.commit();
         }
 
+=======
+        setAlarmHourly();
+>>>>>>> origin/android
     }
 
     @Override
@@ -735,19 +739,37 @@ public class Home extends Activity implements View.OnClickListener, GoogleApiCli
     public void setAlarmHourly() {
 
         //set Reboot
+<<<<<<< HEAD
         ComponentName receiver = new ComponentName(this, BootReceiver.class);
         PackageManager pm = this.getPackageManager();
         pm.setComponentEnabledSetting(receiver,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
+=======
+//        ComponentName receiver = new ComponentName(this, BootReceiver.class);
+//        PackageManager pm = this.getPackageManager();
+//        pm.setComponentEnabledSetting(receiver,
+//                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+//                PackageManager.DONT_KILL_APP);
+>>>>>>> origin/android
 
         AlarmManager alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, HourlyService.class);
         PendingIntent alarmIntent = PendingIntent.getService(this, 0, intent, 0);
 
+<<<<<<< HEAD
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 22);
         calendar.set(Calendar.MINUTE, 00);
+=======
+
+        Calendar calendar = Calendar.getInstance();
+        if (calendar.get(Calendar.HOUR_OF_DAY) >= 11 && calendar.get(Calendar.MINUTE) >= 32) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1); // add, not set!
+        }
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.set(Calendar.MINUTE, 32);
+>>>>>>> origin/android
         calendar.set(Calendar.SECOND, 00);
 
         alarmMgr.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
